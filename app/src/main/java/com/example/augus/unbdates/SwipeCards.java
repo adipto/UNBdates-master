@@ -1,20 +1,34 @@
 package com.example.augus.unbdates;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SwipeCards extends AppCompatActivity {
 
-    private ArrayList<String> al;
-    private ArrayAdapter<String> arrayAdapter;
+    private Cards card_data[];
+    private ArrayAdapter arrayAdapter;
     private int i;
+
+    ListView listView;
+    List<Cards> rowItems;
 
 
 
@@ -23,17 +37,12 @@ public class SwipeCards extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_cards);
 
-        al = new ArrayList<>();
-        al.add("php");
-        al.add("c");
-        al.add("python");
-        al.add("java");
-        al.add("html");
-        al.add("c++");
-        al.add("css");
-        al.add("javascript");
+        //Calling Methods for UserSex
+        checkUserSex();
 
-        arrayAdapter = new ArrayAdapter<>(this, R.layout.item, R.id.helloText, al );
+        rowItems = new ArrayList<Cards>();
+
+        arrayAdapter = new ArrayAdapter(this, R.layout.item, rowItems );
 
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
@@ -42,7 +51,7 @@ public class SwipeCards extends AppCompatActivity {
             public void removeFirstObjectInAdapter() {
                 // this is the simplest way to delete an object from the Adapter (/AdapterView)
                 Log.d("LIST", "removed object!");
-                al.remove(0);
+                rowItems.remove(0);
                 arrayAdapter.notifyDataSetChanged();
             }
 
@@ -61,11 +70,7 @@ public class SwipeCards extends AppCompatActivity {
 
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
-                // Ask for more data here
-                al.add("XML ".concat(String.valueOf(i)));
-                arrayAdapter.notifyDataSetChanged();
-                Log.d("LIST", "notified");
-                i++;
+
             }
 
             @Override
@@ -73,7 +78,6 @@ public class SwipeCards extends AppCompatActivity {
 
             }
         });
-
 
         // Optionally add an OnItemClickListener
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
@@ -84,4 +88,117 @@ public class SwipeCards extends AppCompatActivity {
         });
 
     }
+
+
+    //Declaring variable for methods
+    private String UserSex;
+    private String OppositeUserSex;
+    //Method to check usersex for matching
+    public void checkUserSex()
+    {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference male_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Male");
+        male_db.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
+            {
+                if(dataSnapshot.getKey().equals(user.getUid()))
+                {
+                    UserSex = "Male";
+                    OppositeUserSex = "Female";
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
+            {
+            }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot)
+            {
+            }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
+            {
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
+            }
+        });
+
+
+        DatabaseReference female_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Female");
+        female_db.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
+            {
+                if(dataSnapshot.getKey().equals(user.getUid()))
+                {
+                    UserSex = "Female";
+                    OppositeUserSex = "Male";
+                    getOppositeUserSex();
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
+            {
+            }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot)
+            {
+            }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
+            {
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
+            }
+        });
+
+    }
+
+
+    //Method to Get OppositeUserSex for matching
+    public void getOppositeUserSex()
+    {
+        DatabaseReference OppositeUserSex_db = FirebaseDatabase.getInstance().getReference().child("Users").child(OppositeUserSex);
+        OppositeUserSex_db.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
+            {
+                  if(dataSnapshot.exists())
+                  {
+                      Cards item = new Cards(dataSnapshot.getKey(),dataSnapshot.child("Name").getValue().toString());
+                      rowItems.add(item);
+                      arrayAdapter.notifyDataSetChanged();
+
+                  }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
+            {
+            }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot)
+            {
+            }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
+            {
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
+            }
+        });
+    }
+
 }
+
+
