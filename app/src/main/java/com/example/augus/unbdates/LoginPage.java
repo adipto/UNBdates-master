@@ -42,7 +42,7 @@ public class LoginPage extends AppCompatActivity {
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         if(user != null)
                         {
-                            Intent intent = new Intent(LoginPage.this,MatchPage.class);
+                            Intent intent = new Intent(LoginPage.this,ChooseProfilePic.class);
                             startActivity(intent);
                             finish();
                             return;
@@ -75,7 +75,9 @@ public class LoginPage extends AppCompatActivity {
                         }
                         else
                         {
-                            Intent intent = new Intent(LoginPage.this,MatchPage.class);
+                            //Debugging need to change the intent later
+
+                            Intent intent = new Intent(LoginPage.this,ChooseProfilePic.class);
                             startActivity(intent);
                             finish();
                             return;

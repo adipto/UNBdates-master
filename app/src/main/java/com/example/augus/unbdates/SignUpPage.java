@@ -1,6 +1,7 @@
 package com.example.augus.unbdates;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,6 +42,8 @@ public class SignUpPage extends AppCompatActivity {
     //Firebase variable
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener FirebaseAuthStateListener;
+
+
 
 
     @Override
@@ -219,6 +222,7 @@ public class SignUpPage extends AppCompatActivity {
                            newpost.put("InterestedIn",interest);
                            newpost.put("Age",age);
                            newpost.put("Bio",bio);
+                           //newpost.put("ProfilePicURI","");
 
                          current_user_db.setValue(newpost);
 
