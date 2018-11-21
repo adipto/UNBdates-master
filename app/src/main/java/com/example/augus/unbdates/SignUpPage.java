@@ -212,8 +212,12 @@ public class SignUpPage extends AppCompatActivity {
                        else
                        {
                            //Storing information to the database
+
+                           // get reference to 'users' node
+                           DatabaseReference current_user_db;
                            String user_id = mAuth.getCurrentUser().getUid();
-                           DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(gender).child(user_id);
+                           String path = "/Users/" + gender + "/" + user_id ;
+                           current_user_db = FirebaseDatabase.getInstance().getReference(path);
 
                            Map newpost = new HashMap();
                            newpost.put("Name",name);
@@ -225,7 +229,6 @@ public class SignUpPage extends AppCompatActivity {
                            //newpost.put("ProfilePicURI","");
 
                          current_user_db.setValue(newpost);
-
                            Intent intent = new Intent(SignUpPage.this,ChooseProfilePic.class);
                            startActivity(intent);
                            finish();

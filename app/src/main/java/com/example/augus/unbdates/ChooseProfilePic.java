@@ -64,44 +64,38 @@ public class ChooseProfilePic extends AppCompatActivity
     //Method to check usersex for matching
     public void checkUserSex()
     {
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final DatabaseReference mDatabaseReference  = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference busReference = mDatabaseReference.child("Users");
+        final FirebaseUser mUser  = FirebaseAuth.getInstance().getCurrentUser();
+        assert mUser != null;
+        final String userid = mUser.getUid();
 
-        DatabaseReference male_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Male");
-        male_db.addValueEventListener(new ValueEventListener() {
+        busReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getKey().equals(user.getUid()))
-                {
-                    userGender = "Male";
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    long usercount = ds.getChildrenCount();
+                    for(int i = 1; i <= usercount; i++){
+                        if(ds.hasChild(userid)){
+                            userGender = ds.getKey();
+                            String path = "/Users/" + userGender + "/" + userId ;
+                            try
+                            {
+                                mUserDatabase = FirebaseDatabase.getInstance().getReference(path);
 
+                            }
+                            catch (java.lang.NullPointerException e) {
+                                Toast.makeText(ChooseProfilePic.this, userGender, Toast.LENGTH_SHORT).show();
+                            }
+                            break;
+                        }
+                    }
                 }
-
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) { }
         });
-
-        DatabaseReference Female_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Female");
-        Female_db.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getKey().equals(user.getUid()))
-                {
-                    userGender = "Female";
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
     }
 
 
@@ -124,10 +118,18 @@ public class ChooseProfilePic extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userGender).child(userId);
         //String temp = mUserDatabase.getParent().toString();
         //mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
+        String path = "/Users/" + userGender + "/" + userId ;
+        try
+        {
+            mUserDatabase = FirebaseDatabase.getInstance().getReference(path);
+
+        }
+        catch (java.lang.NullPointerException e) {
+            Toast.makeText(ChooseProfilePic.this, userGender, Toast.LENGTH_SHORT).show();
+        }
 
         //Calling the method to find user gender,method for retriving data
 
