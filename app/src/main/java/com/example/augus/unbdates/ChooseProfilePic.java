@@ -123,11 +123,15 @@ public class ChooseProfilePic extends AppCompatActivity
         checkUserSex();
 
         mAuth = FirebaseAuth.getInstance();
-        userId = mAuth.getCurrentUser().getUid();
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userGender).child(userId);
-        //String temp = mUserDatabase.getParent().toString();
-        //mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
+        try {
+            userId = mAuth.getCurrentUser().getUid();
+            mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userGender).child(userId);
+            //String temp = mUserDatabase.getParent().toString();
+            //mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        } catch (java.lang.NullPointerException e)
+        {Toast.makeText(ChooseProfilePic.this, userGender, Toast.LENGTH_SHORT).show();
+        };
 
         //Calling the method to find user gender,method for retriving data
 
