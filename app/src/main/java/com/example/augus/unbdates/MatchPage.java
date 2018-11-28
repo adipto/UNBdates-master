@@ -18,6 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +32,7 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class MatchPage extends AppCompatActivity {
@@ -56,9 +58,10 @@ public class MatchPage extends AppCompatActivity {
 
         array = new ArrayList<>();
 
-        /*
+          /*
         array.add(new Data("http://www.androidtutorialpoint.com/wp-content/uploads/2016/11/Katrina-Kaif.jpg", "Hi I am Katrina Kaif. Wanna chat with me ?. \n" +
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
+
         array.add(new Data("http://www.androidtutorialpoint.com/wp-content/uploads/2016/11/Emma-Watson.jpg", "Hi I am Emma Watson. Wanna chat with me ? \n" +
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
         array.add(new Data("http://www.androidtutorialpoint.com/wp-content/uploads/2016/11/Scarlett-Johansson.jpg", "Hi I am Scarlett Johansson. Wanna chat with me ? \n" +
@@ -236,6 +239,7 @@ public class MatchPage extends AppCompatActivity {
                 {
                     UserSex = "Male";
                     OppositeUserSex = "Female";
+                    getOppositeUserSex();
                 }
             }
 
@@ -291,6 +295,9 @@ public class MatchPage extends AppCompatActivity {
 
     }
 
+    //Declaring variables for OppositeUserSex method
+
+
 
     //Method to Get OppositeUserSex for matching
     public void getOppositeUserSex()
@@ -300,11 +307,35 @@ public class MatchPage extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
             {
-                if(dataSnapshot.exists())
+                String name="";
+                String Description= "";
+                String ImageURL= "";
+                if(dataSnapshot.exists()&& dataSnapshot.getChildrenCount()>0)
                 {
                     //Need to pass in all the information as required by Data,check data class
                     //Cards item = new Cards(dataSnapshot.getKey(),dataSnapshot.child("Name").getValue().toString());
                     //Data userdata = new Data();
+
+
+                        long usercount = dataSnapshot.getChildrenCount();
+                        for(int i = 1; i <= usercount; i++)
+                        {
+                            Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                            if(map.get("Name")!=null){
+                                name = map.get("Name").toString();
+                            }
+                            if(map.get("Bio")!=null){
+                                Description = map.get("Bio").toString();
+                            }
+                            if(map.get("ProfileImageUrl")!=null){
+                                ImageURL = map.get("ProfileImageUrl").toString();
+                            }
+                            array.add(new Data(ImageURL,Description,name));
+                        }
+
+
+
+
 
                 }
             }

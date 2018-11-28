@@ -42,7 +42,7 @@ public class LoginPage extends AppCompatActivity {
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         if(user != null)
                         {
-                            Intent intent = new Intent(LoginPage.this,ChooseProfilePic.class);
+                            Intent intent = new Intent(LoginPage.this,MatchPage.class);
                             startActivity(intent);
                             finish();
                             return;
@@ -73,6 +73,7 @@ public class LoginPage extends AppCompatActivity {
                         {
                             Toast.makeText(LoginPage.this, "Sign In Error", Toast.LENGTH_SHORT).show();
                         }
+                        /*
                         else
                         {
                             //Debugging need to change the intent later
@@ -82,6 +83,7 @@ public class LoginPage extends AppCompatActivity {
                             finish();
                             return;
                         }
+                        */
                     }
                 });
             }
