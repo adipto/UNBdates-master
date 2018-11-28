@@ -21,5 +21,9 @@ public class HomePage extends AppCompatActivity {
     public void logOutAction(View view){
         Intent intent = new Intent(this, LoginPage.class);
         startActivity(intent);
-    }//make
+    }
+    public void gotToChat(View view){
+        Intent intent = new Intent(this, ChatPage.class);
+        startActivity(intent);
+    }
 }

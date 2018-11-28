@@ -33,7 +33,13 @@
         <activity android:name=".HomePage" />
         <activity android:name=".EditInfo" />
         <activity android:name=".MatchPage" />
-        <activity android:name=".ChatPage" />
+        <activity android:name=".ChatPage"
+        android:parentActivityName=".HomePage"
+        tools:targetApi="jelly_bean">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".HomePage"/>
+    </activity>
         <activity
             android:name=".ChooseProfilePic"
             android:parentActivityName=".SignUpPage"

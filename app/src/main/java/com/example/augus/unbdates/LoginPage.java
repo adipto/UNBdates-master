@@ -79,8 +79,8 @@ public class LoginPage extends AppCompatActivity {
 
                             Intent intent = new Intent(LoginPage.this,HomePage.class);//changed from choose profile to homepage
                             startActivity(intent);
-                            finish();
-                            return;
+                            //finish();
+                            //return;
                         }
                     }
                 });
@@ -90,10 +90,10 @@ public class LoginPage extends AppCompatActivity {
         BSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginPage.this,SignUpPage.class);
+                Intent intent = new Intent(LoginPage.this, SignUpPage.class);
                 startActivity(intent);
-                finish();
-                return;
+                //finish();
+                //return;
             }
         });
 
