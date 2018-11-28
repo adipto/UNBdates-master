@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -45,6 +46,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class ChooseProfilePic extends AppCompatActivity
 {
@@ -312,4 +315,10 @@ public class ChooseProfilePic extends AppCompatActivity
 
     }
 
+    public void toHomePage(View view){
+        Intent intent = new Intent(this, HomePage.class);
+        String message = "asdf";
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
 }

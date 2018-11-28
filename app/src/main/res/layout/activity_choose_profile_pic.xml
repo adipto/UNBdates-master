@@ -31,21 +31,23 @@
         android:layout_marginStart="141dp"
         android:layout_marginLeft="141dp"
         android:layout_marginBottom="173dp"
-        android:text="Confirm"
+        android:onClick="toHomePage"
+        android:text="Continue!"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/ProPic"
-        app:layout_constraintTop_toBottomOf="@+id/ProPic" />
+        app:layout_constraintStart_toStartOf="@+id/ProPic" />
 
     <ImageView
         android:id="@+id/ProPic"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="14dp"
         app:layout_constraintBottom_toTopOf="@+id/ChangePic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:srcCompat="@drawable/emoji_1f414" />
+        app:srcCompat="@drawable/orca_emoji_category_people" />
 </android.support.constraint.ConstraintLayout>

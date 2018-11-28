@@ -54,8 +54,8 @@ public class LoginPage extends AppCompatActivity {
         BSignUp = (Button) findViewById(R.id.SignUp);
         mEmail = (EditText)findViewById(R.id.Email);
         mPassword = (EditText)findViewById(R.id.Password);
-
         //Setting the onClick listener for buttons for LogIn xml
+
 
         BLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +77,7 @@ public class LoginPage extends AppCompatActivity {
                         {
                             //Debugging need to change the intent later
 
-                            Intent intent = new Intent(LoginPage.this,ChooseProfilePic.class);
+                            Intent intent = new Intent(LoginPage.this,HomePage.class);//changed from choose profile to homepage
                             startActivity(intent);
                             finish();
                             return;

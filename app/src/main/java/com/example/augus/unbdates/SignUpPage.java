@@ -66,7 +66,7 @@ public class SignUpPage extends AppCompatActivity {
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null)
                 {
-                    Intent intent = new Intent(SignUpPage.this,ChooseProfilePic.class);
+                    Intent intent = new Intent(SignUpPage.this,HomePage.class);//changed ChooseProfilePic
                     startActivity(intent);
                     finish();
                     return;

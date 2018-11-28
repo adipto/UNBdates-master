@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.augus.unbdates">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,7 +12,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".LoginPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,12 +22,26 @@
             </intent-filter>
         </activity>
         <activity android:name=".SwipeCards" />
-        <activity android:name=".SignUpPage" />
+        <activity
+            android:name=".SignUpPage"
+            android:parentActivityName=".LoginPage"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginPage"/>
+        </activity>
         <activity android:name=".HomePage" />
         <activity android:name=".EditInfo" />
         <activity android:name=".MatchPage" />
         <activity android:name=".ChatPage" />
-        <activity android:name=".ChooseProfilePic"></activity>
+        <activity
+            android:name=".ChooseProfilePic"
+            android:parentActivityName=".SignUpPage"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SignUpPage"/>
+        </activity>
     </application>
 
 </manifest>
