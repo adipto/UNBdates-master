@@ -317,8 +317,6 @@ public class ChooseProfilePic extends AppCompatActivity
 
     public void toHomePage(View view){
         Intent intent = new Intent(this, HomePage.class);
-        String message = "asdf";
-        intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
 }

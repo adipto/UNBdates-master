@@ -207,7 +207,7 @@ public class SignUpPage extends AppCompatActivity {
                    {
                        if(!task.isSuccessful())
                        {
-                           Toast.makeText(SignUpPage.this, "Sign Up Error", Toast.LENGTH_SHORT).show();
+                           Toast.makeText(SignUpPage.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                        }
                        else
                        {

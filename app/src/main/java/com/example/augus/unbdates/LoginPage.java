@@ -40,13 +40,13 @@ public class LoginPage extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        if(user != null)
+                        /*if(user != null)
                         {
                             Intent intent = new Intent(LoginPage.this,ChooseProfilePic.class);
                             startActivity(intent);
                             finish();
                             return;
-                        }
+                        }*/
             }
         };
         //Initializing the View Id

@@ -1,35 +1,27 @@
 {
   "project_info": {
-    "project_number": "567672285796",
-    "firebase_url": "https://unbdate.firebaseio.com",
-    "project_id": "unbdate",
-    "storage_bucket": "unbdate.appspot.com"
+    "project_number": "263869510035",
+    "firebase_url": "https://unbdates-d689b.firebaseio.com",
+    "project_id": "unbdates-d689b",
+    "storage_bucket": "unbdates-d689b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:567672285796:android:b1d12c82d87ed9f1",
+        "mobilesdk_app_id": "1:263869510035:android:b1d12c82d87ed9f1",
         "android_client_info": {
           "package_name": "com.example.augus.unbdates"
         }
       },
       "oauth_client": [
         {
-          "client_id": "567672285796-d4nguj2m6q4nkro5fconfbonqscm2ooc.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.augus.unbdates",
-            "certificate_hash": "6014051bdd83c3dd1df88700ac03a2864f036c52"
-          }
-        },
-        {
-          "client_id": "567672285796-te0haad4v27prdjo84ub6i14jtadiknl.apps.googleusercontent.com",
+          "client_id": "263869510035-lbau0fsi0tm2dqep56lku1dh8e4ka75o.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAMP-Z1bqpwYbvuV17ePca8BcGClCF6ijA"
+          "current_key": "AIzaSyCeISe5a2eLraPuqq02pwY96HNeZrP-beU"
         }
       ],
       "services": {
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "567672285796-te0haad4v27prdjo84ub6i14jtadiknl.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2
