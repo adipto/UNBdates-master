@@ -71,7 +71,7 @@ public class LoginPage extends AppCompatActivity {
                     {
                         if(!task.isSuccessful())
                         {
-                            Toast.makeText(LoginPage.this, "Sign In Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginPage.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                         }
                         else
                         {
@@ -79,8 +79,6 @@ public class LoginPage extends AppCompatActivity {
 
                             Intent intent = new Intent(LoginPage.this,HomePage.class);//changed from choose profile to homepage
                             startActivity(intent);
-                            //finish();
-                            //return;
                         }
                     }
                 });
@@ -92,8 +90,6 @@ public class LoginPage extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(LoginPage.this, SignUpPage.class);
                 startActivity(intent);
-                //finish();
-                //return;
             }
         });
 
