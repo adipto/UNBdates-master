@@ -28,11 +28,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
+import com.google.firebase.database.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.lang.*;
 
 
 public class MatchPage extends AppCompatActivity {
@@ -57,7 +60,8 @@ public class MatchPage extends AppCompatActivity {
         //checkUserSex();
 
         array = new ArrayList<>();
-
+        checkUserSex();
+        getOppositeUserSex();
           /*
         array.add(new Data("http://www.androidtutorialpoint.com/wp-content/uploads/2016/11/Katrina-Kaif.jpg", "Hi I am Katrina Kaif. Wanna chat with me ?. \n" +
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
@@ -228,72 +232,36 @@ public class MatchPage extends AppCompatActivity {
     //Method to check usersex for matching
     public void checkUserSex()
     {
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final DatabaseReference mDatabaseReference  = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference busReference = mDatabaseReference.child("Users");
+        final FirebaseUser mUser  = FirebaseAuth.getInstance().getCurrentUser();
+        assert mUser != null;
+        final String userid = mUser.getUid();
 
-        DatabaseReference male_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Male");
-        male_db.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
-            {
-                if(dataSnapshot.getKey().equals(user.getUid()))
-                {
-                    UserSex = "Male";
-                    OppositeUserSex = "Female";
-                    getOppositeUserSex();
+        busReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override // it never run the onDataChange method. it's the same for the choosepic form but there is loop back there that solved the problem temporary
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    long usercount = ds.getChildrenCount();
+                    for(int i = 1; i <= usercount; i++){
+                        if(ds.hasChild(userid)){
+                            UserSex = ds.getKey();
+                            if(UserSex == "Male")
+                                OppositeUserSex = "Female";
+                            else
+                                OppositeUserSex = "Male";
+
+                        }
+                    }
                 }
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
-            {
-            }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot)
-            {
-            }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
-            {
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError)
-            {
-            }
-        });
-
-
-        DatabaseReference female_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Female");
-        female_db.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
-            {
-                if(dataSnapshot.getKey().equals(user.getUid()))
-                {
-                    UserSex = "Female";
-                    OppositeUserSex = "Male";
-                    getOppositeUserSex();
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
-            {
-            }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot)
-            {
-            }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
-            {
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError)
-            {
-            }
+            public void onCancelled(DatabaseError databaseError) { }
         });
 
     }
+
 
     //Declaring variables for OppositeUserSex method
 
@@ -302,7 +270,11 @@ public class MatchPage extends AppCompatActivity {
     //Method to Get OppositeUserSex for matching
     public void getOppositeUserSex()
     {
-        DatabaseReference OppositeUserSex_db = FirebaseDatabase.getInstance().getReference().child("Users").child(OppositeUserSex);
+        try
+        { // you get the error here since the gender is null here
+            DatabaseReference OppositeUserSex_db = FirebaseDatabase.getInstance().getReference().child("Users").child(OppositeUserSex);
+
+
         OppositeUserSex_db.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
@@ -357,5 +329,9 @@ public class MatchPage extends AppCompatActivity {
             {
             }
         });
+        }
+        catch (java.lang.NullPointerException e) {
+            Toast.makeText(MatchPage.this, "Error", Toast.LENGTH_SHORT).show();
+        }
     }
 }
