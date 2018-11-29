@@ -8,11 +8,11 @@ public class Data
     private String name;
     private String userid;
 
-    public Data(String imagePath, String description,String name,String userid) {
+    public Data(String imagePath, String description,String name) {
         this.imagePath = imagePath;
         this.description = description;
         this.name = name;
-        this.userid = userid;
+       // this.userid = userid;
     }
 
     public String getDescription() {
@@ -24,9 +24,10 @@ public class Data
     public String getName() {
         return name;
     }
+    /*
     public String getUserid() {
         return userid;
     }
-
+*/
 
 }

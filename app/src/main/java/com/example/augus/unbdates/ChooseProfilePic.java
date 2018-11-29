@@ -96,6 +96,7 @@ public class ChooseProfilePic extends AppCompatActivity
             @Override
             public void onCancelled(DatabaseError databaseError) { }
         });
+
     }
 
 
@@ -118,8 +119,6 @@ public class ChooseProfilePic extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
-        //String temp = mUserDatabase.getParent().toString();
-        //mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
         String path = "/Users/" + userGender + "/" + userId ;
         try
