@@ -42,6 +42,12 @@ public class MatchPage extends AppCompatActivity {
     private ArrayList<Data> array;
     private SwipeFlingAdapterView flingContainer;
 
+    private FirebaseAuth mAuth;
+
+    private String currentUId;
+
+    private DatabaseReference usersDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -50,11 +56,17 @@ public class MatchPage extends AppCompatActivity {
 
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
         //Enabling the action bar, Overriding method outside this scope/class.
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Match Page");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        usersDb = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUId = mAuth.getCurrentUser().getUid();
+
         //Calling Method
-        //checkUserSex();
+        checkUserSex();
 
         array = new ArrayList<>();
 
@@ -86,12 +98,26 @@ public class MatchPage extends AppCompatActivity {
 
             @Override
             public void onLeftCardExit(Object dataObject) {
+
+
+                Object dataObject1 = dataObject;
+                Data obj = array.get((Integer) dataObject1);
+                String userId = obj.getUserid();
+                usersDb.child(OppositeUserSex).child(userId).child("connections").child("nope").child(currentUId).setValue(true);
+                Toast.makeText(MatchPage.this, "Left", Toast.LENGTH_SHORT).show();
                 array.remove(0);
                 myAppAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
+
+                Object dataObject1 = dataObject;
+                Data obj = array.get((Integer) dataObject1);
+                String userId = obj.getUserid();
+                usersDb.child(OppositeUserSex).child(userId).child("connections").child("yeps").child(currentUId).setValue(true);
+                Toast.makeText(MatchPage.this, "Right", Toast.LENGTH_SHORT).show();
+
 
                 array.remove(0);
                 myAppAdapter.notifyDataSetChanged();
@@ -196,7 +222,6 @@ public class MatchPage extends AppCompatActivity {
 
             View rowView = convertView;
 
-
             if (rowView == null) {
 
                 LayoutInflater inflater = getLayoutInflater();
@@ -212,6 +237,7 @@ public class MatchPage extends AppCompatActivity {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
             viewHolder.DataText.setText(parkingList.get(position).getDescription() + "");
+            //viewHolder.DataText.setText(parkingList.get(position).getName() + "");
 
             Glide.with(MatchPage.this).load(parkingList.get(position).getImagePath()).into(viewHolder.cardImage);
 
@@ -310,33 +336,25 @@ public class MatchPage extends AppCompatActivity {
                 String name="";
                 String Description= "";
                 String ImageURL= "";
-                if(dataSnapshot.exists()&& dataSnapshot.getChildrenCount()>0)
+                String UserID = "";
+                if(dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUId) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUId))
                 {
-                    //Need to pass in all the information as required by Data,check data class
-                    //Cards item = new Cards(dataSnapshot.getKey(),dataSnapshot.child("Name").getValue().toString());
-                    //Data userdata = new Data();
+                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                    if(map.get("Name")!=null){
+                        name = map.get("Name").toString();
+                    }
+                    if(map.get("Bio")!=null){
+                        Description = map.get("Bio").toString();
+                    }
+                    if(map.get("profileImageUrl")!=null){
+                        ImageURL = map.get("profileImageUrl").toString();
+                    }
+                    if(map.get("UserID")!=null){
+                        UserID = map.get("UserID").toString();
+                    }
 
-
-                        long usercount = dataSnapshot.getChildrenCount();
-                        for(int i = 1; i <= usercount; i++)
-                        {
-                            Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                            if(map.get("Name")!=null){
-                                name = map.get("Name").toString();
-                            }
-                            if(map.get("Bio")!=null){
-                                Description = map.get("Bio").toString();
-                            }
-                            if(map.get("ProfileImageUrl")!=null){
-                                ImageURL = map.get("ProfileImageUrl").toString();
-                            }
-                            array.add(new Data(ImageURL,Description,name));
-                        }
-
-
-
-
-
+                    array.add(new Data(ImageURL,Description,name,UserID));
+                    myAppAdapter.notifyDataSetChanged();
                 }
             }
 

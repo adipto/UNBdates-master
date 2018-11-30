@@ -3,6 +3,7 @@
     package="com.example.augus.unbdates">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -23,7 +24,8 @@
         <activity android:name=".SignUpPage" />
         <activity android:name=".HomePage" />
         <activity android:name=".EditInfo" />
-        <activity android:name=".MatchPage" />
+        <activity android:name=".MatchPage"
+            android:parentActivityName=".LoginPage"/>
         <activity android:name=".ChatPage" />
         <activity android:name=".ChooseProfilePic"></activity>
     </application>

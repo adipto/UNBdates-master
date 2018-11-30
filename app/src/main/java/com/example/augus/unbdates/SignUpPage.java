@@ -222,6 +222,7 @@ public class SignUpPage extends AppCompatActivity {
                            newpost.put("InterestedIn",interest);
                            newpost.put("Age",age);
                            newpost.put("Bio",bio);
+                           newpost.put("UserID",user_id);
                            //newpost.put("ProfilePicURI","");
 
                          current_user_db.setValue(newpost);

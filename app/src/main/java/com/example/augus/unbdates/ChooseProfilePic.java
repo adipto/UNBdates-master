@@ -17,8 +17,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -110,7 +113,7 @@ public class ChooseProfilePic extends AppCompatActivity
         mconfirm = (Button) findViewById(R.id.ChangePic);
 
         //Enabling the action bar, Overriding method outside this scope/class.
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -208,6 +211,12 @@ public class ChooseProfilePic extends AppCompatActivity
             public void onClick(View view)
             {
                 uploadImage();
+
+                Intent intent = new Intent(ChooseProfilePic.this,MatchPage.class);
+                startActivity(intent);
+                finish();
+                return;
+
             }
         });
 
@@ -245,6 +254,7 @@ public class ChooseProfilePic extends AppCompatActivity
 
         if(filePath != null)
         {
+            /*
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
@@ -261,7 +271,6 @@ public class ChooseProfilePic extends AppCompatActivity
                             Map userInfo = new HashMap();
                             userInfo.put("profileImageUrl", downloadUrl.toString());
                             mUserDatabase.updateChildren(userInfo);
-
                             finish();
                         }
                     })
@@ -279,8 +288,83 @@ public class ChooseProfilePic extends AppCompatActivity
                                     .getTotalByteCount());
                             progressDialog.setMessage("Uploaded "+(int)progress+"%");
                         }
-                    });
+                    });*/
+
+
+            final StorageReference filepath = FirebaseStorage.getInstance().getReference().child("profileImages").child(userId);
+            Bitmap bitmap = null;
+
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getApplication().getContentResolver(), filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+            byte[] data = baos.toByteArray();
+            UploadTask uploadTask = filepath.putBytes(data);
+
+
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+
+                    // Continue with the task to get the download URL
+                    return filepath.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful())
+                    {
+                        Uri downloadUri = task.getResult();
+                        Map userInfo = new HashMap();
+                        userInfo.put("profileImageUrl", downloadUri.toString());
+                        mUserDatabase.updateChildren(userInfo);
+                        finish();
+                        return;
+
+                    }
+                    else
+                        {
+                            // Handle failures
+                        }
+                }
+            });
+
+            /*
+
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    finish();
+                }
+            });
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Uri downloadUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+
+                    Map userInfo = new HashMap();
+                    userInfo.put("profileImageUrl", downloadUrl.toString());
+                    mUserDatabase.updateChildren(userInfo);
+
+                    finish();
+                    return;
+                }
+            });
+
+*/
+
         }
+        else
+            {
+                finish();
+            }
     }
 
 
