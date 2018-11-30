@@ -7,8 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,6 +38,7 @@ public class ChooseProfilePic extends AppCompatActivity
 
     private ImageView mProfileImage;
     private Button mconfirm;
+    private FloatingActionButton chooseProfileImage;
     private String userId;
     private String userGender;
     private FirebaseAuth mAuth;
@@ -65,10 +66,10 @@ public class ChooseProfilePic extends AppCompatActivity
                     for(int i = 1; i <= usercount; i++){
                         if(ds.hasChild(userid)){
                             userGender = ds.getKey();
-                            String path = "/Users/" + userGender + "/" + userId ;
+//                            String path = "/Users/" + userGender + "/" + userId ;--------------------------changed this line
                             try
                             {
-                                mUserDatabase = FirebaseDatabase.getInstance().getReference(path);
+                                mUserDatabase = FirebaseDatabase.getInstance().getReference();
 
                             }
                             catch (java.lang.NullPointerException e) {
@@ -93,7 +94,8 @@ public class ChooseProfilePic extends AppCompatActivity
         setContentView(R.layout.activity_choose_profile_pic);
 
         mProfileImage = (ImageView) findViewById(R.id.ProPic);
-        mconfirm = (Button) findViewById(R.id.ChangePic);
+        chooseProfileImage = (FloatingActionButton) findViewById(R.id.addProfilePicBtn);
+        mconfirm = (Button) findViewById(R.id.continueBtn);
 
         //Enabling the action bar, Overriding method outside this scope/class.
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -105,65 +107,18 @@ public class ChooseProfilePic extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
-        //String temp = mUserDatabase.getParent().toString();
-        //mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
-        String path = "/Users/" + userGender + "/" + userId ;
+//        String path = "/Users/" + userGender + "/" + userId ;
         try
         {
-            mUserDatabase = FirebaseDatabase.getInstance().getReference(path);
+            mUserDatabase = FirebaseDatabase.getInstance().getReference();
 
         }
         catch (java.lang.NullPointerException e) {
             Toast.makeText(ChooseProfilePic.this, userGender, Toast.LENGTH_SHORT).show();
         }
 
-        //Calling the method to find user gender,method for retriving data
-
-        /*
-
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-
-        mUserDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.i(TAG, dataSnapshot.getValue(String.class));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "onCancelled", databaseError.toException());
-            }
-        });
-        */
-        /*
-
-
-
-        ValueEventListener EventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                //Nullpointer exception
-                userGender = map.get("Gender").toString();
-                Toast.makeText(ChooseProfilePic.this, userGender, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-
-        mUserDatabase.addValueEventListener(EventListener);
-
-*/
-
-
-
-
-
-        //Firebase Sotrage
+        //Firebase Storage
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -176,22 +131,7 @@ public class ChooseProfilePic extends AppCompatActivity
                 chooseImage();
             }
         });
-
-        /*
-        mconfirm.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent, 1);
-            }
-        });
-
-        */
-
-        mconfirm.setOnClickListener(new View.OnClickListener() {
+        chooseProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
@@ -207,7 +147,7 @@ public class ChooseProfilePic extends AppCompatActivity
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Profile Picture"), PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
     @Override
@@ -248,7 +188,7 @@ public class ChooseProfilePic extends AppCompatActivity
                             String downloadUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
                             Map userInfo = new HashMap();
                             userInfo.put("profileImageUrl", downloadUrl.toString());
-                            mUserDatabase.updateChildren(userInfo);
+                            mUserDatabase.child("Users").child(userId).updateChildren(userInfo);
 
                             finish();
                         }
@@ -272,35 +212,9 @@ public class ChooseProfilePic extends AppCompatActivity
     }
 
 
-    //Implementing the back button
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-            int id = item.getItemId();
-
-            if ( id == android.R.id.home )
-            {
-                finish();
-                return true;
-            }
-
-        return super.onOptionsItemSelected(item);
-
-
-        /*
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        */
-
-    }
-
     public void toHomePage(View view){
         Intent intent = new Intent(this, HomePage.class);
         startActivity(intent);
     }
+
 }
