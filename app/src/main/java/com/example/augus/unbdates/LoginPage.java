@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.augus.unbdates.Matches.MatchesActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -83,7 +84,7 @@ public class LoginPage extends AppCompatActivity {
 
 
 
-                            Intent intent = new Intent(LoginPage.this,ChooseProfilePic.class);
+                            Intent intent = new Intent(LoginPage.this,MatchesActivity.class);
                             startActivity(intent);
                             finish();
                             return;
