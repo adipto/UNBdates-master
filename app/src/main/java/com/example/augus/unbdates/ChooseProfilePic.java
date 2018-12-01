@@ -64,6 +64,14 @@ public class ChooseProfilePic extends AppCompatActivity
     FirebaseStorage storage;
     StorageReference storageReference;
 
+    //New DATABASE IMPLEMENTATION
+    final FirebaseUser mUser  = FirebaseAuth.getInstance().getCurrentUser();
+    final String userid = mUser.getUid();
+    final DatabaseReference mDatabaseReference  = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference busReference = mDatabaseReference.child("Users").child(userid);
+
+
+/*
     //Method to check usersex for matching
     public void checkUserSex()
     {
@@ -102,7 +110,7 @@ public class ChooseProfilePic extends AppCompatActivity
 
     }
 
-
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -116,7 +124,9 @@ public class ChooseProfilePic extends AppCompatActivity
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //New DATABASE IMPLEMENTATION
 
+/*
         // Calling checkUserSex method
         checkUserSex();
 
@@ -132,27 +142,6 @@ public class ChooseProfilePic extends AppCompatActivity
         catch (java.lang.NullPointerException e) {
             Toast.makeText(ChooseProfilePic.this, userGender, Toast.LENGTH_SHORT).show();
         }
-
-        //Calling the method to find user gender,method for retriving data
-
-        /*
-
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-
-        mUserDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.i(TAG, dataSnapshot.getValue(String.class));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "onCancelled", databaseError.toException());
-            }
-        });
-        */
-        /*
-
 
 
         ValueEventListener EventListener = new ValueEventListener() {
@@ -172,9 +161,8 @@ public class ChooseProfilePic extends AppCompatActivity
 
         mUserDatabase.addValueEventListener(EventListener);
 
+
 */
-
-
 
 
 
@@ -192,19 +180,6 @@ public class ChooseProfilePic extends AppCompatActivity
             }
         });
 
-        /*
-        mconfirm.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent, 1);
-            }
-        });
-
-        */
 
         mconfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,44 +229,8 @@ public class ChooseProfilePic extends AppCompatActivity
 
         if(filePath != null)
         {
-            /*
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
 
-            StorageReference ref = storageReference.child("profileImages").child(userId).child("images/"+ UUID.randomUUID().toString());
-            ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
-                    {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressDialog.dismiss();
-                            Toast.makeText(ChooseProfilePic.this, "Uploaded", Toast.LENGTH_SHORT).show();
-                            String downloadUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
-                            Map userInfo = new HashMap();
-                            userInfo.put("profileImageUrl", downloadUrl.toString());
-                            mUserDatabase.updateChildren(userInfo);
-                            finish();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(ChooseProfilePic.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
-                                    .getTotalByteCount());
-                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                        }
-                    });*/
-
-
-            final StorageReference filepath = FirebaseStorage.getInstance().getReference().child("profileImages").child(userId);
+            final StorageReference filepath = FirebaseStorage.getInstance().getReference().child("profileImages").child(userid);
             Bitmap bitmap = null;
 
             try {
@@ -324,7 +263,7 @@ public class ChooseProfilePic extends AppCompatActivity
                         Uri downloadUri = task.getResult();
                         Map userInfo = new HashMap();
                         userInfo.put("profileImageUrl", downloadUri.toString());
-                        mUserDatabase.updateChildren(userInfo);
+                        busReference.updateChildren(userInfo);
                         finish();
                         return;
 
@@ -336,29 +275,6 @@ public class ChooseProfilePic extends AppCompatActivity
                 }
             });
 
-            /*
-
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    finish();
-                }
-            });
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Uri downloadUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl();
-
-                    Map userInfo = new HashMap();
-                    userInfo.put("profileImageUrl", downloadUrl.toString());
-                    mUserDatabase.updateChildren(userInfo);
-
-                    finish();
-                    return;
-                }
-            });
-
-*/
 
         }
         else
@@ -367,7 +283,7 @@ public class ChooseProfilePic extends AppCompatActivity
             }
     }
 
-
+/*
     //Implementing the back button
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -382,17 +298,6 @@ public class ChooseProfilePic extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
 
-
-        /*
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        */
-
     }
-
+*/
 }

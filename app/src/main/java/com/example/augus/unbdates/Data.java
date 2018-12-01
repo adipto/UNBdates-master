@@ -7,6 +7,7 @@ public class Data
     private String imagePath;
     private String name;
     private String userid;
+    String profileImageUrl;
 
     public Data(String imagePath, String description,String name) {
         this.imagePath = imagePath;
@@ -21,6 +22,13 @@ public class Data
         this.name = name;
         this.userid = userid;
     }
+    public Data(String imagePath, String description,String name,String userid,String profileImageUrl) {
+        this.imagePath = imagePath;
+        this.description = description;
+        this.name = name;
+        this.userid = userid;
+        this.profileImageUrl = profileImageUrl;
+    }
 
     public String getDescription() {
         return description;
@@ -30,10 +38,7 @@ public class Data
     }
     public String getName() { return name;}
     public String getUserid() { return userid;}
-    /*
-    public String getUserid() {
-        return userid;
-    }
-*/
+    public String getProfileImageUrl() { return profileImageUrl;}
+
 
 }
