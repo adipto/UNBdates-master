@@ -24,10 +24,12 @@
         <activity android:name=".SignUpPage" />
         <activity android:name=".HomePage" />
         <activity android:name=".EditInfo" />
-        <activity android:name=".MatchPage"
-            android:parentActivityName=".LoginPage"/>
+        <activity
+            android:name=".MatchPage"
+            android:parentActivityName=".LoginPage" />
         <activity android:name=".ChatPage" />
-        <activity android:name=".ChooseProfilePic"></activity>
+        <activity android:name=".ChooseProfilePic" />
+        <activity android:name=".Matches.MatchesActivity"></activity>
     </application>
 
 </manifest>
