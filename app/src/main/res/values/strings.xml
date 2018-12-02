@@ -13,16 +13,6 @@
     <string name="email">Email</string>
     <string name="Email">Email</string>
     <string name="Password">Password</string>
-    <string name="chatMessageTemplate">Type your message...</string>
-    <string name="SignUpBtn">Sign Up</string>
-    <string name="logInBtn">Log In</string>
-    <string name="passwordHint">Password</string>
-    <string name="emailHint">UNB Email</string>
-    <string name="descriptionProfilePic">Profile Picture</string>
-    <string name="chooseProfilePicText">Choose a Profile Picture!</string>
-    <string name="editUserName">Edit UserName</string>
-    <string name="editInterestedIn">editInterestedIn</string>
-    <string name="newUserName">New Username</string>
     <string-array name="GenderArray">
         <item>Male</item>
         <item>Female</item>

@@ -1,10 +1,15 @@
 package com.example.augus.unbdates;
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +43,9 @@ public class SignUpPage extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener FirebaseAuthStateListener;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -58,7 +66,7 @@ public class SignUpPage extends AppCompatActivity {
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null)
                 {
-                    Intent intent = new Intent(SignUpPage.this, ChooseProfilePic.class);//changed ChooseProfilePic
+                    Intent intent = new Intent(SignUpPage.this,ChooseProfilePic.class);
                     startActivity(intent);
                     finish();
                     return;
@@ -101,6 +109,67 @@ public class SignUpPage extends AppCompatActivity {
         mInterestedInSpinner.setAdapter(InterestedInAdapter);
         mAgeSpinner.setAdapter(AgeAdapter);
 
+        //Displaying selection Storing data in firebase
+        mGenderSipinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                Toast.makeText(SignUpPage.this,adapterView.getItemAtPosition(i)+" is selected", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
+
+            }
+        });
+
+        mCampusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                Toast.makeText(SignUpPage.this,adapterView.getItemAtPosition(i)+" is selected", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
+
+            }
+        });
+       mInterestedInSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                Toast.makeText(SignUpPage.this,adapterView.getItemAtPosition(i)+" is selected", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
+
+            }
+        });
+        mAgeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                Toast.makeText(SignUpPage.this,adapterView.getItemAtPosition(i)+" is selected", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
+
+            }
+        });
+
+        //Setting the onClick listener for buttons for Submit xml
+
         Bsubmit.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -123,27 +192,36 @@ public class SignUpPage extends AppCompatActivity {
                    {
                        if(!task.isSuccessful())
                        {
-                           Toast.makeText(SignUpPage.this, task.getException().toString(), Toast.LENGTH_LONG).show();
+                           Toast.makeText(SignUpPage.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                        }
                        else
                        {
                            //Storing information to the database
 
+                           //NEW DATABASE IMPLEMENTATION
+
+                           DatabaseReference current_user_db;
+                           String user_id = mAuth.getCurrentUser().getUid();
+                           current_user_db = FirebaseDatabase.getInstance().getReference("Users").child(user_id);
+
+
+                           /*
                            // get reference to 'users' node
                            DatabaseReference current_user_db;
                            String user_id = mAuth.getCurrentUser().getUid();
-                           //String path = "/Users/" + gender + "/" + user_id ; CHANGED THIS LINE -------------------------------
-                           String path = "/Users/" + user_id ;
+                           String path = "/Users/" + gender + "/" + user_id ;
                            current_user_db = FirebaseDatabase.getInstance().getReference(path);
+                           */
 
                            Map newpost = new HashMap();
-                           newpost.put("name",name);
-                           newpost.put("gender",gender);
-                           newpost.put("campus",campus);
-                           newpost.put("interestedIn",interest);
-                           newpost.put("age",age);
-                           newpost.put("bio",bio);
-                           newpost.put("profileImageUrl","");
+                           newpost.put("Name",name);
+                           newpost.put("Gender",gender);
+                           newpost.put("Campus",campus);
+                           newpost.put("InterestedIn",interest);
+                           newpost.put("Age",age);
+                           newpost.put("Bio",bio);
+                           newpost.put("UserID",user_id);
+                           newpost.put("profileImageUrl","default");
 
                          current_user_db.setValue(newpost);
                            Intent intent = new Intent(SignUpPage.this,ChooseProfilePic.class);
@@ -157,6 +235,24 @@ public class SignUpPage extends AppCompatActivity {
             }
         });
     }
+
+    //Implementing the back button
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int id = item.getItemId();
+        if(id == android.R.id.home)
+        {
+            Intent intent = new Intent(SignUpPage.this,LoginPage.class);
+            startActivity(intent);
+            finish();
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
     @Override
     protected void onStart()
