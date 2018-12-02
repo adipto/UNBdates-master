@@ -58,7 +58,7 @@ public class SignUpPage extends AppCompatActivity {
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null)
                 {
-                    Intent intent = new Intent(SignUpPage.this,ChooseProfilePic.class);//changed ChooseProfilePic
+                    Intent intent = new Intent(SignUpPage.this, ChooseProfilePic.class);//changed ChooseProfilePic
                     startActivity(intent);
                     finish();
                     return;
@@ -137,12 +137,12 @@ public class SignUpPage extends AppCompatActivity {
                            current_user_db = FirebaseDatabase.getInstance().getReference(path);
 
                            Map newpost = new HashMap();
-                           newpost.put("Name",name);
-                           newpost.put("Gender",gender);
-                           newpost.put("Campus",campus);
-                           newpost.put("InterestedIn",interest);
-                           newpost.put("Age",age);
-                           newpost.put("Bio",bio);
+                           newpost.put("name",name);
+                           newpost.put("gender",gender);
+                           newpost.put("campus",campus);
+                           newpost.put("interestedIn",interest);
+                           newpost.put("age",age);
+                           newpost.put("bio",bio);
                            newpost.put("profileImageUrl","");
 
                          current_user_db.setValue(newpost);

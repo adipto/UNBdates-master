@@ -1,71 +1,69 @@
 package com.example.augus.unbdates;
 
-import android.net.Uri;
-
 public class User {
     public User(){}
 
-    private int Age;
-    private String Bio;
-    private String Campus;
-    private String Gender;
-    private String InterestedIn;
-    private String Name;
-    private Uri profileImageUrl;
+    private String age;
+    private String bio;
+    private String campus;
+    private String gender;
+    private String interestedIn;
+    private String name;
+    private String profileImageUrl;
 
-    public int getAge() {
-        return Age;
+    public String getAge() {
+        return age;
     }
 
-    public void setAge(int age) {
-        Age = age;
+    public void setAge(String a) {
+        this.age = a;
     }
 
     public String getBio() {
-        return Bio;
+        return bio;
     }
 
-    public void setBio(String bio) {
-        Bio = bio;
+    public void setBio(String s) {
+        this.bio = s;
     }
 
     public String getCampus() {
-        return Campus;
+        return campus;
     }
 
-    public void setCampus(String campus) {
-        Campus = campus;
+    public void setCampus(String s) {
+        this.campus = s;
     }
 
     public String getGender() {
-        return Gender;
+        return gender;
     }
 
-    public void setGender(String gender) {
-        Gender = gender;
+    public void setGender(String s) {
+        this.gender = s;
     }
 
     public String getInterestedIn() {
-        return InterestedIn;
+        return interestedIn;
     }
 
-    public void setInterestedIn(String interestedIn) {
-        InterestedIn = interestedIn;
+    public void setInterestedIn(String s) {
+        this.interestedIn = s;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setName(String s) {
+        this.name = s;
     }
 
-    public Uri getProfileImageUrl() {
+    public String getProfileImageUrl() {
         return profileImageUrl;
     }
 
-    public void setProfileImageUrl(Uri profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
+    public void setProfileImageUrl(String s) {
+        profileImageUrl = s;
     }
 }

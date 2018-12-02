@@ -6,31 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".HomePage">
 
+    <TextView
+        android:id="@+id/bioInfo"
+        android:layout_width="0dp"
+        android:layout_height="229dp"
+        android:layout_marginBottom="8dp"
+        android:background="#f0f0f0"
+        android:text="Bio information"
+        android:textAllCaps="false"
+        android:textColor="#000"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameView" />
+
     <ImageView
-        android:id="@+id/profilePic"
+        android:id="@+id/profilePicView"
         android:layout_width="155dp"
         android:layout_height="152dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         android:adjustViewBounds="false"
         android:clickable="true"
         android:contentDescription="@string/descriptionProfilePic"
         android:cropToPadding="false"
-        app:layout_constraintEnd_toStartOf="@+id/frameLayout"
+        app:layout_constraintBottom_toTopOf="@+id/nameView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/unbdates" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNavigationView"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        app:itemBackground="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -38,18 +54,18 @@
         <Button
             android:id="@+id/btnMatch"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="127dp"
+            android:layout_width="128dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="@color/colorPrimaryDark"
-            android:onClick="change"
+            android:onClick="goToMatch"
             android:text="Matches"
             android:textColor="#fff" />
 
         <Button
             android:id="@+id/chatButton"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="121dp"
+            android:layout_width="128dp"
             android:layout_height="match_parent"
             android:background="@color/colorPrimary"
             android:onClick="gotToChat"
@@ -59,7 +75,7 @@
         <Button
             android:id="@+id/btnLogOut"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="120dp"
+            android:layout_width="128dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:background="@color/colorPrimary"
@@ -69,21 +85,22 @@
 
     </android.support.design.widget.BottomNavigationView>
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="156dp"
+    <TextView
+        android:id="@+id/nameView"
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="24dp"
+        android:contentDescription="user Name"
+        android:text="Firstname Lastname"
+        android:textColor="#000"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/bioInfo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/profilePic"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profilePicView" />
 
-        <TextView
-            android:id="@+id/bioInfo"
-            android:layout_width="match_parent"
-            android:layout_height="74dp" />
-    </FrameLayout>
 </android.support.constraint.ConstraintLayout>

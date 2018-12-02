@@ -94,7 +94,7 @@ public class ChooseProfilePic extends AppCompatActivity
         setContentView(R.layout.activity_choose_profile_pic);
 
         mProfileImage = (ImageView) findViewById(R.id.ProPic);
-        chooseProfileImage = (FloatingActionButton) findViewById(R.id.addProfilePicBtn);
+        chooseProfileImage = (FloatingActionButton) findViewById(R.id.ChangePic);
         mconfirm = (Button) findViewById(R.id.continueBtn);
 
         //Enabling the action bar, Overriding method outside this scope/class.
@@ -140,7 +140,6 @@ public class ChooseProfilePic extends AppCompatActivity
         });
 
     }
-
     //Immplementing choose pic and upload pic method
     private void chooseImage()
     {
@@ -189,8 +188,6 @@ public class ChooseProfilePic extends AppCompatActivity
                             Map userInfo = new HashMap();
                             userInfo.put("profileImageUrl", downloadUrl.toString());
                             mUserDatabase.child("Users").child(userId).updateChildren(userInfo);
-
-                            finish();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -210,7 +207,6 @@ public class ChooseProfilePic extends AppCompatActivity
                     });
         }
     }
-
 
     public void toHomePage(View view){
         Intent intent = new Intent(this, HomePage.class);

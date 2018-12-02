@@ -2,45 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+    android:id="@+id/message_Relative_Layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="60dp"
     tools:context=".ChatPage">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/sendBtn"
+    <TextView
+        android:id="@+id/messageUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="user@unb.ca" />
+
+    <TextView
+        android:id="@+id/messageTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:clickable="true"
-        android:src="@android:drawable/ic_menu_send"
-        android:tint="@android:color/white"
-        app:fabSize="mini" />
+        android:text="12:34 pm" />
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/messageText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/sendBtn"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Message..."
-            android:id="@+id/chatMessageInput"
-            />
-    </android.support.design.widget.TextInputLayout>
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/messageUser"
         android:layout_alignParentStart="true"
-        android:layout_above="@id/sendBtn"
-        android:dividerHeight="16dp"
-        android:divider="@android:color/transparent"
-        android:id="@+id/list_of_messages"
-        android:layout_marginBottom="16dp"/>
+
+        android:text="Text"
+        android:textColor="#000"
+        android:textSize="20sp" />
 </RelativeLayout>

@@ -6,43 +6,61 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class HomePage extends AppCompatActivity {
 
-    private FirebaseDatabase myDB;
-    private DatabaseReference dbRef;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference myRef;
     private FirebaseAuth mAuth;
-    private String userId;
+    private FirebaseAuth.AuthStateListener FirebaseAuthStateListener;
+    private FirebaseUser user;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
-        myDB = FirebaseDatabase.getInstance();
-        dbRef = myDB.getReference();
-        mAuth = FirebaseAuth.getInstance();
-        userId = mAuth.getCurrentUser().getUid();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        dbRef.addValueEventListener(new ValueEventListener() {
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();
+        user = mAuth.getCurrentUser();
+        userID = user.getUid();
+
+        FirebaseAuthStateListener = new FirebaseAuth.AuthStateListener()
+        {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
+            {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null)
+                {
+                    Toast.makeText(HomePage.this, "Sign in succesful", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(HomePage.this, "Signed out", Toast.LENGTH_LONG).show();
+                }
+            }
+
+        };
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 loadProfile(dataSnapshot);
-//                loadBio(dataSnapshot);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
@@ -64,33 +82,44 @@ public class HomePage extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void change(View view){
-        Map userInfo = new HashMap();
-        userInfo.put("test1", "test1");
 
-        FirebaseDatabase.getInstance().getReference().child("Users").child("Male").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(userInfo);
+
+    public void loadProfile(DataSnapshot dataSnapshot){
+        for(DataSnapshot ds : dataSnapshot.getChildren()) {
+            User myUser = new User();
+            try {
+                myUser.setBio(ds.child(userID).getValue(User.class).getBio());
+                myUser.setProfileImageUrl(ds.child(userID).getValue(User.class).getProfileImageUrl());
+                myUser.setName(ds.child(userID).getValue(User.class).getName());
+
+                TextView nameView = (TextView) findViewById(R.id.nameView);
+                nameView.setText(myUser.getName());
+
+                TextView bioView = (TextView) findViewById(R.id.bioInfo);
+                bioView.setText(myUser.getBio());
+                bioView.append("\n" + myUser.getProfileImageUrl());
+            } catch (NullPointerException e) {
+                Toast.makeText(HomePage.this, "no object found", Toast.LENGTH_LONG).show();
+            }/* catch (FileNotFoundException e){
+            Toast.makeText(HomePage.this, "no file found", Toast.LENGTH_LONG).show();
+            } catch (IOException e){
+                Toast.makeText(HomePage.this, "ioexception", Toast.LENGTH_LONG).show();
+            }*/
+        }
     }
 
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        mAuth.addAuthStateListener(FirebaseAuthStateListener);
+    }
 
-
-    public void loadProfile(DataSnapshot ds){
-            for(DataSnapshot d : ds.getChildren()){
-                User myUser = new User();
-                //myUser.setProfileImageUrl(d.child("Users").child(userId).getValue(User.class).getProfileImageUrl()); COMENT BACK IN AFTER TESTING!
-                myUser.setBio(d.child("Users").child(userId).getValue(User.class).getBio());
-                TextView bioTextView = (TextView) findViewById(R.id.bioInfo);
-                bioTextView.setText(myUser.getBio());
-            }
-
-
-        //actually load image onto empty image view
-//        ImageView profilePic = (ImageView)findViewById(R.id.profilePic);
-//        try {
-//            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse("com.google.android.gms.tasks.zzu@27b86b5"));
-//            profilePic.setImageBitmap(bitmap);
-//        }catch(Exception e){
-//            Toast.makeText(HomePage.this, e.toString(), Toast.LENGTH_LONG).show();
-//        }
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        mAuth.addAuthStateListener(FirebaseAuthStateListener);
     }
 
 
