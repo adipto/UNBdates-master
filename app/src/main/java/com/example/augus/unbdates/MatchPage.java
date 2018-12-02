@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.augus.unbdates.Matches.MatchesActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -422,5 +423,9 @@ public class MatchPage extends AppCompatActivity {
             {
             }
         });
+    }
+    public void goToMatches(View view){
+        Intent intent = new Intent(MatchPage.this, MatchesActivity.class);
+        startActivity(intent);
     }
 }

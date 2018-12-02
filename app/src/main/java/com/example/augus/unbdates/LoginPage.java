@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,21 +37,18 @@ public class LoginPage extends AppCompatActivity {
         setContentView(R.layout.activity_login_page);
         //Authentication
         mAuth = FirebaseAuth.getInstance();
-        FirebaseAuthStateListener = new FirebaseAuth.AuthStateListener()
+        FirebaseAuthStateListener = new FirebaseAuth.AuthStateListener()// log in if user already there!
         {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                /*
-
-                        if(user != null)
-                        {
-                            Intent intent = new Intent(LoginPage.this,ChooseProfilePic.class);
-                            startActivity(intent);
-                            finish();
-                        }
-*/
-
+                if (user != null)//if User already exists
+                {
+                    Intent intent = new Intent(LoginPage.this, HomePage.class);
+                    startActivity(intent);
+                    finish();
+                    return;
+                }
             }
         };
         //Initializing the View Id
@@ -83,7 +81,7 @@ public class LoginPage extends AppCompatActivity {
                             //Debugging need to change the intent later
 
 
-
+                            Toast.makeText(LoginPage.this, "Sign in successful", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(LoginPage.this, HomePage.class);
                             startActivity(intent);
                             finish();

@@ -57,6 +57,14 @@
         </activity>
         <activity
             android:name=".Matches.MatchesActivity"
+            android:parentActivityName=".MatchPage"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MatchPage"/>
+        </activity>
+        <activity
+            android:name=".MatchPage"
             android:parentActivityName=".HomePage"
             tools:targetApi="jelly_bean">
             <meta-data

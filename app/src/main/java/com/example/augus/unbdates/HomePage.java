@@ -49,7 +49,7 @@ public class HomePage extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null)
                 {
-                    Toast.makeText(HomePage.this, "Sign in succesful", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(HomePage.this, "Sign in successful", Toast.LENGTH_LONG).show();
                 }
                 else{
                     Toast.makeText(HomePage.this, "Signed out", Toast.LENGTH_LONG).show();
@@ -86,7 +86,10 @@ public class HomePage extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    public void goToEdit(View view){
+        Intent intent = new Intent(HomePage.this, EditInfo.class);
+        startActivity(intent);
+    }
 
     public void loadProfile(DataSnapshot dataSnapshot){
         for(DataSnapshot ds : dataSnapshot.getChildren()) {

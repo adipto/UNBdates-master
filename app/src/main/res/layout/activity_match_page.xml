@@ -8,21 +8,31 @@
 
 
     <!-- activity view -->
+
     <FrameLayout
 
 
         android:layout_width="match_parent"
 
-        android:layout_height="match_parent"
-        android:background="@drawable/background">
+        android:layout_height="match_parent">
 
 
         <com.lorentzos.flingswipe.SwipeFlingAdapterView
             android:id="@+id/frame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/background"
+            android:layout_height="466dp"
             app:rotation_degrees="15.5" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:onClick="goToMatches"
+            android:text="@string/seeYourMatches"
+            android:textColor="#fff" />
 
     </FrameLayout>
 

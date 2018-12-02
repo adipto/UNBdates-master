@@ -64,9 +64,9 @@ public class SignUpPage extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
             {
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null)
+                if (user != null)//if User already exists
                 {
-                    Intent intent = new Intent(SignUpPage.this,ChooseProfilePic.class);
+                    Intent intent = new Intent(SignUpPage.this, ChooseProfilePic.class);
                     startActivity(intent);
                     finish();
                     return;
