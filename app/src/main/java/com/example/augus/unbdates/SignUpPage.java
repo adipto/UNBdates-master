@@ -204,15 +204,6 @@ public class SignUpPage extends AppCompatActivity {
                             String user_id = mAuth.getCurrentUser().getUid();
                             current_user_db = FirebaseDatabase.getInstance().getReference("Users").child(user_id);
 
-
-                           /*
-                           // get reference to 'users' node
-                           DatabaseReference current_user_db;
-                           String user_id = mAuth.getCurrentUser().getUid();
-                           String path = "/Users/" + gender + "/" + user_id ;
-                           current_user_db = FirebaseDatabase.getInstance().getReference(path);
-                           */
-
                             Map newpost = new HashMap();
                             newpost.put("Name",name);
                             newpost.put("Gender",gender);
@@ -235,23 +226,6 @@ public class SignUpPage extends AppCompatActivity {
             }
         });
     }
-
-    //Implementing the back button
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        int id = item.getItemId();
-        if(id == android.R.id.home)
-        {
-            Intent intent = new Intent(SignUpPage.this,LoginPage.class);
-            startActivity(intent);
-            finish();
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
 
     @Override

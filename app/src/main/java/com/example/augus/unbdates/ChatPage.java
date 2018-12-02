@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -18,7 +20,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class ChatPage extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class ChatPage extends AppCompatActivity implements ChatRecycler.ItemClickListener {
 
 
     private FirebaseDatabase mFirebaseDatabase;
@@ -32,65 +36,33 @@ public class ChatPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_page);
-
-
-
-        mAuth = FirebaseAuth.getInstance();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference();
-        user = mAuth.getCurrentUser();
-        userID = user.getUid();
-
-        FirebaseAuthStateListener = new FirebaseAuth.AuthStateListener()
-        {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
-            {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null)
-                {
-                    Toast.makeText(ChatPage.this, "Sign in succesful", Toast.LENGTH_LONG).show();
-                }
-                else{
-                    Toast.makeText(ChatPage.this, "Signed out", Toast.LENGTH_LONG).show();
-                }
-            }
-
-        };
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                loadMessages(dataSnapshot);
-            }
-
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+//
+//        mAuth = FirebaseAuth.getInstance();
+//        mFirebaseDatabase = FirebaseDatabase.getInstance();
+//        myRef = mFirebaseDatabase.getReference();
+//        user = mAuth.getCurrentUser();
+//        userID = user.getUid();
         //take
 
         //layout all messages
 
+        ChatRecycler adapter;
 
-        FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.sendMessageButton);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText textField = (EditText)findViewById(R.id.messageText);
-                textField.setText("");
+                // data to populate the RecyclerView with
+                ArrayList<String> chats = new ArrayList<>();
+                chats.add("Hey");
+                chats.add("How's it going?");
+
+                // set up the RecyclerView
+                RecyclerView recyclerView = findViewById(R.id.messageList);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                adapter = new ChatRecycler(this, chats);
+//                adapter.setClickListener(this); option for delete message
+                recyclerView.setAdapter(adapter);
             }
-        });
-    }
 
-    private void loadMessages(DataSnapshot dataSnapshot) {
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.message_Relative_Layout);
-        ListView listOfMessages = (ListView)findViewById(R.id.listOfMessages);
-
-        for(DataSnapshot ds : dataSnapshot.getChildren()){
-        }
-    }
+            @Override
+            public void onItemClick(View view, int position) {
+            }
 
 }

@@ -110,7 +110,7 @@ public class ChooseProfilePic extends AppCompatActivity
             {
                 uploadImage();
 
-                Intent intent = new Intent(ChooseProfilePic.this,MatchPage.class);
+                Intent intent = new Intent(ChooseProfilePic.this, HomePage.class);
                 startActivity(intent);
                 finish();
                 return;

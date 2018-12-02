@@ -24,6 +24,7 @@
     <string name="editInterestedIn">editInterestedIn</string>
     <string name="newUserName">New Username</string>
     <string name="seeYourMatches">See All Your Matches!</string>
+    <string name="chatWithMatches">Chat With Your Matches!</string>
     <string-array name="GenderArray">
         <item>Male</item>
         <item>Female</item>

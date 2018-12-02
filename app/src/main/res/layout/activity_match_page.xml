@@ -31,7 +31,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
             android:onClick="goToMatches"
-            android:text="@string/seeYourMatches"
+            android:text="@string/chatWithMatches"
             android:textColor="#fff" />
 
     </FrameLayout>
