@@ -40,10 +40,6 @@ public class MatchesActivity extends AppCompatActivity {
 
         getUserMatchId();
 
-
-
-
-
     }
 
     private void getUserMatchId() {
@@ -81,7 +77,6 @@ public class MatchesActivity extends AppCompatActivity {
                     if(dataSnapshot.child("profileImageUrl").getValue()!=null){
                         profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
                     }
-
 
                     MatchesObject obj = new MatchesObject(userId, name, profileImageUrl);
                     resultsMatches.add(obj);
