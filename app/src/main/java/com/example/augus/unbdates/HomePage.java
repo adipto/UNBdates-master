@@ -1,13 +1,17 @@
 package com.example.augus.unbdates;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.augus.unbdates.Matches.MatchesActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -97,14 +101,12 @@ public class HomePage extends AppCompatActivity {
 
                 TextView bioView = (TextView) findViewById(R.id.bioInfo);
                 bioView.setText(myUser.getBio());
-                bioView.append("\n" + myUser.getProfileImageUrl());
+
+//                ImageView profileImageView = (ImageView) findViewById(R.id.profilePicView);
+                Glide.with(HomePage.this).load(myUser.getProfileImageUrl()).into((ImageView)findViewById(R.id.profilePicView));
             } catch (NullPointerException e) {
                 Toast.makeText(HomePage.this, "no object found", Toast.LENGTH_LONG).show();
-            }/* catch (FileNotFoundException e){
-            Toast.makeText(HomePage.this, "no file found", Toast.LENGTH_LONG).show();
-            } catch (IOException e){
-                Toast.makeText(HomePage.this, "ioexception", Toast.LENGTH_LONG).show();
-            }*/
+            }
         }
     }
 

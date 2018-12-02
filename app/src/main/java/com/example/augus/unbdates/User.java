@@ -3,60 +3,60 @@ package com.example.augus.unbdates;
 public class User {
     public User(){}
 
-    private String age;
-    private String bio;
-    private String campus;
-    private String gender;
-    private String interestedIn;
-    private String name;
+    private String Age;
+    private String Bio;
+    private String Campus;
+    private String Gender;
+    private String InterestedIn;
+    private String Name;
     private String profileImageUrl;
 
     public String getAge() {
-        return age;
+        return Age;
     }
 
     public void setAge(String a) {
-        this.age = a;
+        this.Age = a;
     }
 
     public String getBio() {
-        return bio;
+        return Bio;
     }
 
     public void setBio(String s) {
-        this.bio = s;
+        this.Bio = s;
     }
 
     public String getCampus() {
-        return campus;
+        return Campus;
     }
 
     public void setCampus(String s) {
-        this.campus = s;
+        this.Campus = s;
     }
 
     public String getGender() {
-        return gender;
+        return Gender;
     }
 
     public void setGender(String s) {
-        this.gender = s;
+        this.Gender = s;
     }
 
     public String getInterestedIn() {
-        return interestedIn;
+        return InterestedIn;
     }
 
     public void setInterestedIn(String s) {
-        this.interestedIn = s;
+        this.InterestedIn = s;
     }
 
     public String getName() {
-        return name;
+        return Name;
     }
 
     public void setName(String s) {
-        this.name = s;
+        this.Name = s;
     }
 
     public String getProfileImageUrl() {

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.augus.unbdates.Matches.MatchesActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -40,13 +41,16 @@ public class LoginPage extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        /*if(user != null)
+                /*
+
+                        if(user != null)
                         {
                             Intent intent = new Intent(LoginPage.this,ChooseProfilePic.class);
                             startActivity(intent);
                             finish();
-                            return;
-                        }*/
+                        }
+*/
+
             }
         };
         //Initializing the View Id
@@ -54,8 +58,8 @@ public class LoginPage extends AppCompatActivity {
         BSignUp = (Button) findViewById(R.id.SignUp);
         mEmail = (EditText)findViewById(R.id.Email);
         mPassword = (EditText)findViewById(R.id.Password);
-        //Setting the onClick listener for buttons for LogIn xml
 
+        //Setting the onClick listener for buttons for LogIn xml
 
         BLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,15 +75,22 @@ public class LoginPage extends AppCompatActivity {
                     {
                         if(!task.isSuccessful())
                         {
-                            Toast.makeText(LoginPage.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginPage.this, "Sign In Error", Toast.LENGTH_SHORT).show();
                         }
+
                         else
                         {
                             //Debugging need to change the intent later
 
-                            Intent intent = new Intent(LoginPage.this,HomePage.class);//changed from choose profile to homepage
+
+
+                            Intent intent = new Intent(LoginPage.this, HomePage.class);
                             startActivity(intent);
+                            finish();
+                            return;
+
                         }
+
                     }
                 });
             }
@@ -88,8 +99,10 @@ public class LoginPage extends AppCompatActivity {
         BSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginPage.this, SignUpPage.class);
+                Intent intent = new Intent(LoginPage.this,SignUpPage.class);
                 startActivity(intent);
+                finish();
+                return;
             }
         });
 

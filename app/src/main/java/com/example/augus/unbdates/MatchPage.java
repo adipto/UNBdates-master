@@ -18,6 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,10 +28,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class MatchPage extends AppCompatActivity {
@@ -40,6 +43,12 @@ public class MatchPage extends AppCompatActivity {
     private ArrayList<Data> array;
     private SwipeFlingAdapterView flingContainer;
 
+    private FirebaseAuth mAuth;
+
+    private String currentUId;
+
+    private DatabaseReference usersDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -48,30 +57,19 @@ public class MatchPage extends AppCompatActivity {
 
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
         //Enabling the action bar, Overriding method outside this scope/class.
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Match Page");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        usersDb = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUId = mAuth.getCurrentUser().getUid();
+
         //Calling Method
-        //checkUserSex();
+        checkUserSex();
 
         array = new ArrayList<>();
-
-        /*
-        array.add(new Data("http://www.androidtutorialpoint.com/wp-content/uploads/2016/11/Katrina-Kaif.jpg", "Hi I am Katrina Kaif. Wanna chat with me ?. \n" +
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
-        array.add(new Data("http://www.androidtutorialpoint.com/wp-content/uploads/2016/11/Emma-Watson.jpg", "Hi I am Emma Watson. Wanna chat with me ? \n" +
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
-        array.add(new Data("http://www.androidtutorialpoint.com/wp-content/uploads/2016/11/Scarlett-Johansson.jpg", "Hi I am Scarlett Johansson. Wanna chat with me ? \n" +
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
-        array.add(new Data("http://www.androidtutorialpoint.com/wp-content/uploads/2016/11/Priyanka-Chopra.jpg", "Hi I am Priyanka Chopra. Wanna chat with me ? \n" +
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
-        array.add(new Data("http://www.androidtutorialpoint.com/wp-content/uploads/2016/11/Deepika-Padukone.jpg", "Hi I am Deepika Padukone. Wanna chat with me ? \n" +
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
-        array.add(new Data("http://www.androidtutorialpoint.com/wp-content/uploads/2016/11/Anjelina-Jolie.jpg", "Hi I am Anjelina Jolie. Wanna chat with me ? \n" +
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
-        array.add(new Data("http://www.androidtutorialpoint.com/wp-content/uploads/2016/11/Aishwarya-Rai.jpg", "Hi I am Aishwarya Rai. Wanna chat with me ? \n" +
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
-*/
 
         myAppAdapter = new MyAppAdapter(array, MatchPage.this);
         flingContainer.setAdapter(myAppAdapter);
@@ -83,12 +81,32 @@ public class MatchPage extends AppCompatActivity {
 
             @Override
             public void onLeftCardExit(Object dataObject) {
+
+
+                Object dataObject1 = dataObject;
+                Data obj = array.get((Integer) dataObject1);
+                String userId = obj.getUserid();
+                //NEW DATABASE IMPLEMENTATION
+                usersDb.child(userId).child("connections").child("nope").child(currentUId).setValue(true);
+
+                //usersDb.child(OppositeUserSex).child(userId).child("connections").child("nope").child(currentUId).setValue(true);
+                Toast.makeText(MatchPage.this, "Left", Toast.LENGTH_SHORT).show();
                 array.remove(0);
                 myAppAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
+
+                Object dataObject1 = dataObject;
+                Data obj = array.get((Integer) dataObject1);
+                String userId = obj.getUserid();
+                //NEW DATABASE IMPLEMENTATION
+                usersDb.child(userId).child("connections").child("yeps").child(currentUId).setValue(true);
+                //usersDb.child(OppositeUserSex).child(userId).child("connections").child("yeps").child(currentUId).setValue(true);
+                isConnectionMatch(userId);
+                Toast.makeText(MatchPage.this, "Right", Toast.LENGTH_SHORT).show();
+
 
                 array.remove(0);
                 myAppAdapter.notifyDataSetChanged();
@@ -123,32 +141,32 @@ public class MatchPage extends AppCompatActivity {
         });
     }
 
-    //Implementing the back button
-    /*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
+    private void isConnectionMatch(String userId)
     {
-        /*
-        int id = item.getItemId();
-        if(id == android.R.id.home)
-        {
-            Intent intent = new Intent(MatchPage.this,LoginPage.class);
-            startActivity(intent);
-            finish();
-        }
-        ////***
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        //New Database Implementation
+        DatabaseReference currentUserConnectionsDb = usersDb.child(currentUId).child("connections").child("yeps").child(userId);
+        //DatabaseReference currentUserConnectionsDb = usersDb.child(UserSex).child(currentUId).child("connections").child("yeps").child(userId);
+        currentUserConnectionsDb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    Toast.makeText(MatchPage.this, "new Connection", Toast.LENGTH_LONG).show();
 
+                    //New Database Implementation
+                    usersDb.child(dataSnapshot.getKey()).child("connections").child("matches").child(currentUId).setValue(true);
+                    usersDb.child(currentUId).child("connections").child("matches").child(dataSnapshot.getKey()).setValue(true);
+                    //usersDb.child(OppositeUserSex).child(dataSnapshot.getKey()).child("connections").child("matches").child(currentUId).setValue(true);
+                    //usersDb.child(UserSex).child(currentUId).child("connections").child("matches").child(dataSnapshot.getKey()).setValue(true);
+                }
+            }
 
-
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
-*/
+
+
     //Declaring new class
 
     //Class for holding the View
@@ -193,7 +211,6 @@ public class MatchPage extends AppCompatActivity {
 
             View rowView = convertView;
 
-
             if (rowView == null) {
 
                 LayoutInflater inflater = getLayoutInflater();
@@ -209,7 +226,21 @@ public class MatchPage extends AppCompatActivity {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
             viewHolder.DataText.setText(parkingList.get(position).getDescription() + "");
+            //viewHolder.DataText.setText(parkingList.get(position).getName() + "");
+            //Checking Image if default or not
+            /*
+            switch(parkingList.get(position).getProfileImageUrl())
+            {
+                case "default":
 
+                    Glide.with(MatchPage.this).load(R.mipmap.ic_launcher).into(viewHolder.cardImage);
+                    break;
+                default:
+
+                    Glide.with(MatchPage.this).load(parkingList.get(position).getImagePath()).into(viewHolder.cardImage);
+                    break;
+            }
+            */
             Glide.with(MatchPage.this).load(parkingList.get(position).getImagePath()).into(viewHolder.cardImage);
 
             return rowView;
@@ -219,6 +250,41 @@ public class MatchPage extends AppCompatActivity {
 
     //Checking for Users in the DATABASE
 
+    //New IMPLEMENTATION OF DATABASE
+
+    private String userSex;
+    private String oppositeUserSex;
+    public void checkUserSex(){
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference userDb = usersDb.child(user.getUid());
+        userDb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    if (dataSnapshot.child("Gender").getValue() != null){
+                        userSex = dataSnapshot.child("Gender").getValue().toString();
+                        switch (userSex){
+                            case "Male":
+                                oppositeUserSex = "Female";
+                                break;
+                            case "Female":
+                                oppositeUserSex = "Male";
+                                break;
+                        }
+                        getOppositeUserSex();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+
+/*
     //Declaring variable for methods
     private String UserSex;
     private String OppositeUserSex;
@@ -236,6 +302,7 @@ public class MatchPage extends AppCompatActivity {
                 {
                     UserSex = "Male";
                     OppositeUserSex = "Female";
+                    getOppositeUserSex();
                 }
             }
 
@@ -290,22 +357,50 @@ public class MatchPage extends AppCompatActivity {
         });
 
     }
+*/
+    //Declaring variables for OppositeUserSex method
+
 
 
     //Method to Get OppositeUserSex for matching
     public void getOppositeUserSex()
     {
-        DatabaseReference OppositeUserSex_db = FirebaseDatabase.getInstance().getReference().child("Users").child(OppositeUserSex);
-        OppositeUserSex_db.addChildEventListener(new ChildEventListener() {
+
+        //NEW IMPLEMENTATION OF DATABASE
+
+
+        //DatabaseReference OppositeUserSex_db = FirebaseDatabase.getInstance().getReference().child("Users").child(OppositeUserSex);
+        //// oppositeUserSex_db was changed to userDb
+
+        usersDb.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
             {
-                if(dataSnapshot.exists())
+                String name="";
+                String Description= "";
+                String ImageURL= "";
+                String UserID = "";
+                /////Adding a new condition, the last condition for checking sex
+                if(dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUId) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUId)&& dataSnapshot.child("Gender").getValue().toString().equals(oppositeUserSex))
                 {
-                    //Need to pass in all the information as required by Data,check data class
-                    //Cards item = new Cards(dataSnapshot.getKey(),dataSnapshot.child("Name").getValue().toString());
-                    //Data userdata = new Data();
+                    //Checking for default profilePicUrl
 
+                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                    if(map.get("Name")!=null){
+                        name = map.get("Name").toString();
+                    }
+                    if(map.get("Bio")!=null){
+                        Description = map.get("Bio").toString();
+                    }
+                    if(map.get("profileImageUrl")!=null){
+                        ImageURL = map.get("profileImageUrl").toString();
+                    }
+                    if(map.get("UserID")!=null){
+                        UserID = map.get("UserID").toString();
+                    }
+
+                    array.add(new Data(ImageURL,Description,name,UserID));
+                    myAppAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -317,6 +412,7 @@ public class MatchPage extends AppCompatActivity {
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot)
             {
             }
+
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
             {
