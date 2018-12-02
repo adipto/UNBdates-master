@@ -41,11 +41,11 @@
                 android:value=".HomePage"/>
         </activity>
         <activity android:name=".ChatPage"
-            android:parentActivityName=".HomePage"
-            tools:targetApi="jelly_bean">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomePage"/>
+        android:parentActivityName=".HomePage"
+        tools:targetApi="jelly_bean">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".HomePage"/>
         </activity>
         <activity
             android:name=".ChooseProfilePic"
@@ -55,7 +55,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".SignUpPage"/>
         </activity>
-        <activity android:name=".Matches.MatchesActivity"></activity>
+        <activity
+            android:name=".Matches.MatchesActivity"
+            android:parentActivityName=".HomePage"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomePage"/>
+        </activity>
     </application>
 
 </manifest>

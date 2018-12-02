@@ -171,13 +171,13 @@ public class SwipeCards extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
             {
-                  if(dataSnapshot.exists())
-                  {
-                      Cards item = new Cards(dataSnapshot.getKey(),dataSnapshot.child("Name").getValue().toString());
-                      rowItems.add(item);
-                      arrayAdapter.notifyDataSetChanged();
+                if(dataSnapshot.exists())
+                {
+                    Cards item = new Cards(dataSnapshot.getKey(),dataSnapshot.child("Name").getValue().toString());
+                    rowItems.add(item);
+                    arrayAdapter.notifyDataSetChanged();
 
-                  }
+                }
             }
 
             @Override

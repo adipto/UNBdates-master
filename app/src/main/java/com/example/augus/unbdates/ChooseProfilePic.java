@@ -192,18 +192,18 @@ public class ChooseProfilePic extends AppCompatActivity
 
                     }
                     else
-                        {
-                            // Handle failures
-                        }
+                    {
+                        // Handle failures
+                    }
                 }
             });
 
 
         }
         else
-            {
-                finish();
-            }
+        {
+            finish();
+        }
     }
 
 }

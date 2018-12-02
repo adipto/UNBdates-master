@@ -139,7 +139,7 @@ public class SignUpPage extends AppCompatActivity {
 
             }
         });
-       mInterestedInSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        mInterestedInSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
@@ -175,34 +175,34 @@ public class SignUpPage extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-               final String name = mUserName.getText().toString();
-               final String email = mUserEmail.getText().toString();
-               final String password = mUserPassword.getText().toString();
-               final String bio = mBio.getText().toString();
-               final String gender = mGenderSipinner.getSelectedItem().toString();
-               final String campus = mCampusSpinner.getSelectedItem().toString();
-               final String interest = mInterestedInSpinner.getSelectedItem().toString();
-               final String age = mAgeSpinner.getSelectedItem().toString();
+                final String name = mUserName.getText().toString();
+                final String email = mUserEmail.getText().toString();
+                final String password = mUserPassword.getText().toString();
+                final String bio = mBio.getText().toString();
+                final String gender = mGenderSipinner.getSelectedItem().toString();
+                final String campus = mCampusSpinner.getSelectedItem().toString();
+                final String interest = mInterestedInSpinner.getSelectedItem().toString();
+                final String age = mAgeSpinner.getSelectedItem().toString();
 
 
-               mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(SignUpPage.this, new OnCompleteListener<AuthResult>()
-               {
-                   @Override
-                   public void onComplete(@NonNull Task<AuthResult> task)
-                   {
-                       if(!task.isSuccessful())
-                       {
-                           Toast.makeText(SignUpPage.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-                       }
-                       else
-                       {
-                           //Storing information to the database
+                mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(SignUpPage.this, new OnCompleteListener<AuthResult>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task)
+                    {
+                        if(!task.isSuccessful())
+                        {
+                            Toast.makeText(SignUpPage.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            //Storing information to the database
 
-                           //NEW DATABASE IMPLEMENTATION
+                            //NEW DATABASE IMPLEMENTATION
 
-                           DatabaseReference current_user_db;
-                           String user_id = mAuth.getCurrentUser().getUid();
-                           current_user_db = FirebaseDatabase.getInstance().getReference("Users").child(user_id);
+                            DatabaseReference current_user_db;
+                            String user_id = mAuth.getCurrentUser().getUid();
+                            current_user_db = FirebaseDatabase.getInstance().getReference("Users").child(user_id);
 
 
                            /*
@@ -213,25 +213,25 @@ public class SignUpPage extends AppCompatActivity {
                            current_user_db = FirebaseDatabase.getInstance().getReference(path);
                            */
 
-                           Map newpost = new HashMap();
-                           newpost.put("Name",name);
-                           newpost.put("Gender",gender);
-                           newpost.put("Campus",campus);
-                           newpost.put("InterestedIn",interest);
-                           newpost.put("Age",age);
-                           newpost.put("Bio",bio);
-                           newpost.put("UserID",user_id);
-                           newpost.put("profileImageUrl","default");
+                            Map newpost = new HashMap();
+                            newpost.put("Name",name);
+                            newpost.put("Gender",gender);
+                            newpost.put("Campus",campus);
+                            newpost.put("InterestedIn",interest);
+                            newpost.put("Age",age);
+                            newpost.put("Bio",bio);
+                            newpost.put("UserID",user_id);
+                            newpost.put("profileImageUrl","default");
 
-                         current_user_db.setValue(newpost);
-                           Intent intent = new Intent(SignUpPage.this,ChooseProfilePic.class);
-                           startActivity(intent);
-                           finish();
-                           return;
+                            current_user_db.setValue(newpost);
+                            Intent intent = new Intent(SignUpPage.this,ChooseProfilePic.class);
+                            startActivity(intent);
+                            finish();
+                            return;
 
-                       }
-                   }
-               });
+                        }
+                    }
+                });
             }
         });
     }
