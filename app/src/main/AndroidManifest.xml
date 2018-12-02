@@ -32,7 +32,14 @@
                 android:value=".LoginPage"/>
         </activity>
         <activity android:name=".HomePage" />
-        <activity android:name=".EditInfo" />
+        <activity
+            android:name=".EditInfo"
+            android:parentActivityName=".HomePage"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomePage"/>
+        </activity>
         <activity android:name=".MatchPage"
             android:parentActivityName=".HomePage"
             tools:targetApi="jelly_bean">
