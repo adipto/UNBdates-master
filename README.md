@@ -1,8 +1,13 @@
 # UNBdates-master
+
 Apurba Biswas
+
 Cesar Suarez
+
 OUR FINAL COMMIT IS ON BRANCH "AUGUSTO"
+
 Welcome to UNB DATES
+
   This is a dating app to be used for matching with other members of the University of New Brunswick Family.
   
   Before installation:
